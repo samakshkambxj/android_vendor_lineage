@@ -33,3 +33,11 @@ ifeq (,$(filter true, $(WITHOUT_RESERVED_SIZE) $(WITH_GMS)))
     endif
 
 endif
+
+# PixelithOS: set early (BoardConfig phase) so it propagates through
+# core/soong_config.mk into Soong's product-build.prop --allow-dup.
+# Needed because Clover Pixel sounds and AOSP base both set
+# ro.config.{ringtone,notification_sound,alarm_alert}; Pixel (last) wins.
+ifeq ($(WITH_GMS),true)
+BUILD_BROKEN_DUP_SYSPROP := true
+endif
